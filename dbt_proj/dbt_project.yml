@@ -1,0 +1,146 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'dbt_proj'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+#profile: 'dbt_proj'
+profile: "{{ env_var('DBT_PROFILE') }}"
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/
+# directory as views. These settings can be overridden in the individual model
+# files using the `{{ config(...) }}` macro.
+models:
+  dbt_proj:
+    # Config indicated by + and applies to all files under models/example/
+    example:
+      +materialized: view
+  source_db:
+    enabled: true
+    materialized: view
+    database: "{{ env_var('DBT_SOURCE_DATABASE') }}"
+    schema: "{{ env_var('DBT_SOURCE_SCHEMA') }}"
+    quoting: { }
+    tags: [ ]
+    persisted: false
+#    target: target  # Change this from 'production' to 'target'
+#    outputs:
+#      target:
+#        type: sqlserver
+#        host: de-engineer-trial-intus.database.windows.net
+#        user: de_candidate
+#        password: 1ntu5-d4t4
+#        port: 1433
+#        dbname: FilmData
+#        schema: dbo
+  target_db:
+    enabled: true
+    materialized: view
+    database: "{{ env_var('DBT_TARGET_DATABASE') }}"
+    schema: "{{ env_var('DBT_TARGET_SCHEMA') }}"
+    quoting: { }
+    tags: [ ]
+    persisted: false
+#    target: target  # Change this from 'production' to 'target'
+#    outputs:
+#      target:
+#        type: postgres
+#        host: localhost
+#        user: airflow
+#        password: airflow
+#        port: 5432
+#        dbname: filmdata
+#        schema: raw_film_data
+  ## see docs: https://docs.elementary-data.com/
+  elementary:
+    ## elementary models will be created in the schema '<your_schema>_elementary'
+    +schema: "elementary"
+    ## To disable elementary for dev, uncomment this:
+    # enabled: "{{ target.name in ['prod','analytics'] }}"
+
+
+
+
+
+#name: 'dbt_proj'
+#version: '1.0.0'
+#config-version: 2
+#
+#profile: "{{ env_var('DBT_PROFILE') }}"
+#
+#model-paths: ["models"]
+#analysis-paths: ["analyses"]
+#test-paths: ["tests"]
+#seed-paths: ["seeds"]
+#macro-paths: ["macros"]
+#snapshot-paths: ["snapshots"]
+#
+#target-path: "target"
+#clean-targets:
+#  - "target"
+#  - "dbt_packages"
+#
+#models:
+#  source_db:
+#    enabled: true
+#    materialized: view
+#    database: "{{ env_var('DBT_SOURCE_DATABASE') }}"
+#    schema: "{{ env_var('DBT_SOURCE_SCHEMA') }}"
+#    quoting: {}
+#    tags: []
+#    persisted: false
+#    target: source
+#    outputs:
+#      source:
+#        type: sqlserver
+#        host: de-engineer-trial-intus.database.windows.net
+#        user: de_candidate
+#        password: 1ntu5-d4t4
+#        port: 1433
+#        dbname: FilmData
+#        schema: dbo
+#
+#  target_db:
+#    enabled: true
+#    materialized: view
+#    database: "{{ env_var('DBT_TARGET_DATABASE') }}"
+#    schema: "{{ env_var('DBT_TARGET_SCHEMA') }}"
+#    quoting: {}
+#    tags: []
+#    persisted: false
+#    target: target
+#    outputs:
+#      target:
+#        type: postgres
+#        host: localhost
+#        user: airflow
+#        password: airflow
+#        port: 5432
+#        dbname: filmdata
+#        schema: raw_film_data
+#
+#  elementary:
+#    schema: "elementary"
+#    enabled: "{{ target.name in ['prod','analytics'] }}"
+#

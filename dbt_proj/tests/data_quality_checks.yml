@@ -1,0 +1,16 @@
+# tests/data_quality_checks.yml
+
+version: 2
+
+models:
+- name: data_quality_checks
+
+tests:
+- unique:
+    column_name: source_rows
+    severity: WARN
+    window: null
+- unique:
+    column_name: target_rows
+    severity: WARN
+    window: null

@@ -1,0 +1,67 @@
+adamant:
+    extract_strategy: full_refresh
+    schedule: "0 0-23 * * 1-7"
+    target_schema: raw_film_data
+    source_schema: FilmData
+    table_name:
+        actor:
+            primary_key: actor_id
+            unique_key_id:
+                - actor_id
+            strategy: ID_STRATEGY
+            update_query_type: NORMAL
+            changing_column_datatype: {}
+            too_long_size_column: {}
+            table_name_with_cotation: False
+            update_column:
+                - actor_id
+            columns:
+                - actor_id
+            cross_chk_table:
+                - film_actor
+            cross_chk_column: { }
+            check_type:
+                - uniqueness
+                - integrity
+                - characteristics
+            check_condition: "last_name IS NOT NULL or first_name IS NOT NULL"
+        category:
+            primary_key: category_id
+            unique_key_id:
+                - category_id
+            strategy: ID_STRATEGY
+            update_query_type: NORMAL
+            changing_column_datatype: { }
+            too_long_size_column: { }
+            table_name_with_cotation: False
+            update_column:
+                - category_id
+            columns:
+                - category_id
+            cross_chk_table: { }
+            cross_chk_column: { }
+            check_type:
+                - consistency
+                - characteristics
+            check_condition: "name IS NOT NULL"
+        film:
+            primary_key: film_id
+            unique_key_id:
+                - film_id
+            strategy: ID_STRATEGY
+            update_query_type: NORMAL
+            changing_column_datatype: { }
+            too_long_size_column: { }
+            table_name_with_cotation: False
+            update_column:
+                - film_id
+            columns:
+                - film_id
+            cross_chk_table:
+                - language
+            cross_chk_column:
+                - language_id
+            check_type:
+                - integrity
+                - characteristics
+            check_condition: "release_year > 1900 and release_year <= 2024"

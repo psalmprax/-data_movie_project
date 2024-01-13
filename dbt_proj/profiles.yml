@@ -1,0 +1,21 @@
+# profiles.yml
+
+dbt_proj:
+  target: target_db  # Change this from 'production' to 'target'
+  outputs:
+    target_db:
+      type: postgres
+      host: localhost
+      user: airflow
+      password: airflow
+      port: 5432
+      dbname: filmdata
+      schema: raw
+    source_db:
+      type: sqlserver
+      host: de-engineer-trial-intus.database.windows.net
+      user: de_candidate
+      password: 1ntu5-d4t4
+      port: 1433
+      dbname: FilmData
+      schema: dbo

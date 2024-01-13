@@ -1,0 +1,75 @@
+version: 2
+
+sources:
+  - name: source_db
+    schema: dbo
+    tables:
+      - name: actor
+        columns: {}
+        cross_chk_table:
+          - film_actor
+        cross_chk_column: {}
+        check_type:
+          - uniqueness
+          - integrity
+          - characteristics
+        check_condition: "last_name IS NOT NULL or first_name IS NOT NULL"
+      - name: category
+        columns: {}
+        cross_chk_table: {}
+        cross_chk_column: {}
+        check_type:
+          - consistency
+          - characteristics
+        check_condition: "name IS NOT NULL"
+      - name: film
+        columns: {}
+        cross_chk_table:
+          - language
+        cross_chk_column:
+          - language_id
+        check_type:
+          - integrity
+          - characteristics
+        check_condition: "release_year > 1900 and release_year <= 2024"
+      - name: film_actor
+        columns: {}
+        cross_chk_table: actor
+        cross_chk_column: actor_id
+        check_type:
+          - integrity
+          - characteristics
+        check_condition: "actor_id IS NOT NULL"
+      - name: film_category
+        columns: {}
+        cross_chk_table: {}
+        cross_chk_column: {}
+        check_type:
+          - characteristics
+        check_condition: "category_id IS NOT NULL"
+      - name: inventory
+        columns: {}
+        cross_chk_table: {}
+        cross_chk_column: {}
+        check_type:
+          - consistency
+          - characteristics
+        check_condition: {}
+      - name: language
+        columns: {}
+        cross_chk_table: {}
+        cross_chk_column: {}
+        check_type:
+          - uniqueness
+          - consistency
+        check_condition: {}
+  - name: target_db
+    schema: raw_film_data
+    tables:
+      - name: raw_actor
+      - name: raw_category
+      - name: raw_film
+      - name: raw_film_actor
+      - name: raw_film_category
+      - name: raw_inventory
+      - name: raw_language
